@@ -19,6 +19,10 @@ import {
   DrawingUtils,
 } from "https://cdn.skypack.dev/@mediapipe/tasks-vision@latest";
 
+import {
+  calculateArea
+} from "./mathhelp.js";
+
 // Create required variables.
 let gestureRecognizer = null;
 let runningMode = "VIDEO";
@@ -146,6 +150,9 @@ function displayVideoDetections(results) {
   if (results) {
     // console.log(results.gestures);
     for (const landmarks of results.landmarks) {
+      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
+      let area = calculateArea(outerLandmarks);
+      
       drawingUtils.drawConnectors(
         landmarks,
         GestureRecognizer.HAND_CONNECTIONS,
