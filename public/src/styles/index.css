@@ -1,0 +1,40 @@
+
+/* not applying, fix later */
+@font-face {
+    font-family: 'Minecraft';
+    src: url('../fonts/Minecraft.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} 
+
+.timer {
+    font-family: 'Minecraft', sans-serif;
+    width: 363px;
+    height: 76px;
+
+    left: 25vw;
+    top: 50vh;
+
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.7;
+}
+
+.timer-text {
+    font-size: 36px;
+    color: blakc;
+
+}
