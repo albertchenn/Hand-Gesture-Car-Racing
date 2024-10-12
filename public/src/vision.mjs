@@ -78,7 +78,6 @@ let video = document.getElementById("webcam");
 let canvasElement = document.getElementById("output_canvas");
 let canvasCtx = canvasElement.getContext("2d");
 let gestureOutput = document.getElementById("gesture_output");
-let enableWebcamButton;
 // Check if webcam access is supported.
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -90,44 +89,16 @@ let children = [];
 
 // If webcam supported, add event listener to button for when user
 // wants to activate it.
-if (hasGetUserMedia()) {
-  enableWebcamButton = document.getElementById("webcamButton");
-  enableWebcamButton.addEventListener("click", enableCam);
-} else {
+if (!hasGetUserMedia()) {
   console.warn("getUserMedia() is not supported by your browser");
 }
 
-// Enable the live webcam view and start detection.
-async function enableCam(event) {
-  if (!gestureRecognizer) {
-    console.log("Wait! gestureRecognizer not loaded yet.");
-    return;
-  }
-
-  if (webcamRunning === true) {
-    webcamRunning = false;
-    enableWebcamButton.innerText = "Enable Webcam";
-  } else {
-    webcamRunning = true;
-    enableWebcamButton.innerText = "Disable Webcam";
-  }
-  // Store getUsermedia parameters.
-  const constraints = {
-    video: true,
-  };
-
-  // Activate the webcam stream.
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(function (stream) {
-      video.srcObject = stream;
-      video.addEventListener("loadeddata", predictWebcam);
-    })
-    .catch((err) => {
-      console.error(err);
-      /* handle the error */
-    });
-}
+navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+  video.srcObject = stream;
+  video.addEventListener("loadeddata", predictWebcam);
+}).catch((err) => {
+  console.error(err);
+});
 
 let lastVideoTime = -1;
 let results = undefined;
@@ -251,19 +222,6 @@ function displayVideoDetections(results) {
       canvasCtx.strokeStyle = "red";
       canvasCtx.lineWidth = 5;
       canvasCtx.stroke();
-
-      if (results.gestures.length > 0) {
-        gestureOutput.style.display = "block";
-        gestureOutput.style.width = videoWidth;
-        const categoryName = results.gestures[0][0].categoryName;
-        const categoryScore = parseFloat(
-          results.gestures[0][0].score * 100
-        ).toFixed(2);
-        const handedness = results.handednesses[0][0].displayName;
-        gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
-      } else {
-        gestureOutput.style.display = "none";
-      }
     }
   }
 }
