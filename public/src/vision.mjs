@@ -25,6 +25,7 @@ import {
   setZeroDistance,
   averagePoint,
   calculateAngle,
+  boundVelocity
 } from "./mathhelp.js";
 
 // Create required variables.

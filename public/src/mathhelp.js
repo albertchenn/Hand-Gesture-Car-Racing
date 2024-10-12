@@ -41,3 +41,7 @@ export function calculateAngle(points){
     let angle = Math.atan2(y, x);
     return angle;
 }
+
+export function boundVelocity(distance) {
+    return Math.max(-6, Math.min(0, distance)) * -100/6;
+}
