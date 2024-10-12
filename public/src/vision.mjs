@@ -159,7 +159,7 @@ function displayVideoDetections(results) {
     
     let areas = [];
     for (const landmarks of results.landmarks) {
-      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
+      const outerLandmarks = [landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
       areas.push(calculateArea(outerLandmarks));
       
       drawingUtils.drawConnectors(
@@ -177,6 +177,8 @@ function displayVideoDetections(results) {
     }
 
     let distance = determineDistance(areas);
+
+    // Zeroing Check
     if (allEqual(handGestures)) {
       if (handGestures[0] === "None") {
         setZeroDistance(areas);
