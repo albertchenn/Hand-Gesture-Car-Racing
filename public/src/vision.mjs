@@ -83,22 +83,21 @@ function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
 
-// Keep a reference of all the child elements we create
-// so we can remove them easilly on each render.
-let children = [];
-
 // If webcam supported, add event listener to button for when user
 // wants to activate it.
 if (!hasGetUserMedia()) {
   console.warn("getUserMedia() is not supported by your browser");
 }
 
-navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-  video.srcObject = stream;
-  video.addEventListener("loadeddata", predictWebcam);
-}).catch((err) => {
-  console.error(err);
-});
+navigator.mediaDevices
+  .getUserMedia({ video: true })
+  .then((stream) => {
+    video.srcObject = stream;
+    video.addEventListener("loadeddata", predictWebcam);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 let lastVideoTime = -1;
 let results = undefined;
