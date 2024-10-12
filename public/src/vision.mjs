@@ -154,6 +154,9 @@ function displayVideoDetections(results) {
   webcamElement.style.width = videoWidth;
 
   let handGestures = [];
+  let leftHandPos = {x: 0, y: 0};
+  let rightHandPos = {x: 0, y: 0};
+  
   if (results.gestures.length > 1) {
     for (let gesture of results.gestures) {
       handGestures.push(gesture[0].categoryName);
@@ -171,8 +174,6 @@ function displayVideoDetections(results) {
     }
 
     
-    let leftHandPos = {x: 0, y: 0};
-    let rightHandPos = {x: 0, y: 0};
 
     for (let i = 0; i < results.landmarks.length; i++) {
       let landmarks = results.landmarks[i];
@@ -212,13 +213,21 @@ function displayVideoDetections(results) {
         distance = 0;
       }
     }
-
+    
     const angle = calculateAngle([leftHandPos, rightHandPos]);
-    console.log('Angle:', angle);
-    console.log("Velocity: ", boundVelocity(distance));
+    //console.log('Angle:', angle);
+    //console.log("Velocity: ", boundVelocity(distance));
   }
 
+  // Draw line between hands
   canvasCtx.restore();
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
+  canvasCtx.lineTo(rightHandPos.x * 480 * 2 + 180, rightHandPos.y * 360 * 2);
+  canvasCtx.strokeStyle = "red";
+  canvasCtx.lineWidth = 5;
+  canvasCtx.stroke();
+
   if (results.gestures.length > 0) {
     gestureOutput.style.display = "block";
     gestureOutput.style.width = videoWidth;
