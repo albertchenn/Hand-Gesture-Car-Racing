@@ -23,3 +23,21 @@ export function setZeroDistance(areas) {
 
     zeroDistance = determineDistance(areas);
 }
+export function averagePoint(points) {
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < points.length; i++) {
+        x += points[i].x;
+        y += points[i].y;
+    }
+    var result = [x / points.length, y / points.length];
+    //console.log(result);
+    return {x: x / points.length, y: y / points.length};
+}
+
+export function calculateAngle(points){
+    let x = points[0].x - points[1].x;
+    let y = points[0].y - points[1].y;
+    let angle = Math.atan2(y, x);
+    return angle;
+}

@@ -22,7 +22,9 @@ import {
 import {
   calculateArea,
   determineDistance,
-  setZeroDistance
+  setZeroDistance,
+  averagePoint,
+  calculateAngle,
 } from "./mathhelp.js";
 
 // Create required variables.
@@ -150,7 +152,6 @@ function displayVideoDetections(results) {
   canvasElement.style.width = videoWidth;
   webcamElement.style.width = videoWidth;
 
-  // Check if results.landmarks is defined
   let handGestures = [];
   if (results.gestures.length > 1) {
     for (let gesture of results.gestures) {
@@ -161,6 +162,27 @@ function displayVideoDetections(results) {
     for (const landmarks of results.landmarks) {
       const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
       areas.push(calculateArea(outerLandmarks));
+  if (results.gestures.length > 1) {
+    for (const landmarks of results.landmarks) {
+
+      // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
+      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
+      
+      // calc area and avg
+      let isRightHand = landmarks[4].x > landmarks[20].x;
+      let area = calculateArea(outerLandmarks);
+      let average = averagePoint(outerLandmarks);
+      
+      if(isRightHand){
+        console.log('right hand:',average.x, average.y);
+      }
+      else{
+        console.log('left hand:',average.x, average.y);
+      }
+      
+      //calc angle
+      //const angle = calculateAngle([leftHandPos, rightHandPos]);
+      //console.log('angle:', angle);
       
       drawingUtils.drawConnectors(
         landmarks,
@@ -200,3 +222,5 @@ function displayVideoDetections(results) {
     gestureOutput.style.display = "none";
   }
 }
+
+  }}
