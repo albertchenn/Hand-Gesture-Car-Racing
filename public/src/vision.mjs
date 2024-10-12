@@ -21,7 +21,7 @@ import {
 
 // Create required variables.
 let gestureRecognizer = null;
-let runningMode = "IMAGE";
+let runningMode = "VIDEO";
 let webcamRunning = false;
 
 const videoHeight = "360px";
@@ -39,7 +39,8 @@ async function initializeGestureRecognizer() {
         modelAssetPath:
           "https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task",
       },
-      scoreThreshold: 0.3,
+      numHands: 2,
+      runningMode: runningMode
     }
   );
 
@@ -120,10 +121,6 @@ let results = undefined;
 const webcamElement = document.getElementById("webcam");
 async function predictWebcam() {
   // Run video object detection.
-  if (runningMode === "IMAGE") {
-    runningMode = "VIDEO";
-    await gestureRecognizer.setOptions({ runningMode: runningMode });
-  }
   let nowInMs = Date.now();
   if (video.currentTime !== lastVideoTime) {
     lastVideoTime = video.currentTime;
@@ -147,6 +144,7 @@ function displayVideoDetections(results) {
 
   // Check if results.landmarks is defined
   if (results) {
+    // console.log(results.gestures);
     for (const landmarks of results.landmarks) {
       drawingUtils.drawConnectors(
         landmarks,
@@ -161,19 +159,19 @@ function displayVideoDetections(results) {
         lineWidth: 2,
       });
     }
+  }
 
-    canvasCtx.restore();
-    if (results.gestures.length > 0) {
-      gestureOutput.style.display = "block";
-      gestureOutput.style.width = videoWidth;
-      const categoryName = results.gestures[0][0].categoryName;
-      const categoryScore = parseFloat(
-        results.gestures[0][0].score * 100
-      ).toFixed(2);
-      const handedness = results.handednesses[0][0].displayName;
-      gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
-    } else {
-      gestureOutput.style.display = "none";
-    }
+  canvasCtx.restore();
+  if (results.gestures.length > 0) {
+    gestureOutput.style.display = "block";
+    gestureOutput.style.width = videoWidth;
+    const categoryName = results.gestures[0][0].categoryName;
+    const categoryScore = parseFloat(
+      results.gestures[0][0].score * 100
+    ).toFixed(2);
+    const handedness = results.handednesses[0][0].displayName;
+    gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+  } else {
+    gestureOutput.style.display = "none";
   }
 }
