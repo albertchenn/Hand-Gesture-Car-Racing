@@ -30,8 +30,6 @@ export function averagePoint(points) {
         x += points[i].x;
         y += points[i].y;
     }
-    var result = [x / points.length, y / points.length];
-    //console.log(result);
     return {x: x / points.length, y: y / points.length};
 }
 

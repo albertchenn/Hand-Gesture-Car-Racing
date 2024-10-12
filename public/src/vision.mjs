@@ -215,7 +215,7 @@ function displayVideoDetections(results) {
 
     const angle = calculateAngle([leftHandPos, rightHandPos]);
     console.log('Angle:', angle);
-    //// //console.log("Velocity: ", boundVelocity(distance));
+    console.log("Velocity: ", boundVelocity(distance));
   }
 
   canvasCtx.restore();
