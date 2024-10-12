@@ -215,8 +215,7 @@ function displayVideoDetections(results) {
       }
     }
 
-    console.log("Distance: ", distance);
-    console.log("Velocity: ", boundVelocity(distance));
+    // console.log("Velocity: ", boundVelocity(distance));
   }
 
   canvasCtx.restore();
