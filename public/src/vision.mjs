@@ -25,7 +25,7 @@ import {
   setZeroDistance,
   averagePoint,
   calculateAngle,
-  boundVelocity
+  boundVelocity,
 } from "./mathhelp.js";
 
 // Create required variables.
@@ -36,7 +36,10 @@ let webcamRunning = false;
 const videoHeight = "360px";
 const videoWidth = "480px";
 
-const allEqual = arr => arr.every(val => val === arr[0]);
+let car_velocity = 0;
+let car_angle = 0;
+
+const allEqual = (arr) => arr.every((val) => val === arr[0]);
 
 // Initialize the object detector.
 async function initializeGestureRecognizer() {
@@ -51,7 +54,7 @@ async function initializeGestureRecognizer() {
           "https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task",
       },
       numHands: 2,
-      runningMode: runningMode
+      runningMode: runningMode,
     }
   );
 
@@ -72,7 +75,6 @@ for (let imageContainer of imageContainers) {
  ********************************************************************/
 
 let video = document.getElementById("webcam");
-const liveView = document.getElementById("liveView");
 let canvasElement = document.getElementById("output_canvas");
 let canvasCtx = canvasElement.getContext("2d");
 let gestureOutput = document.getElementById("gesture_output");
@@ -154,92 +156,122 @@ function displayVideoDetections(results) {
   webcamElement.style.width = videoWidth;
 
   let handGestures = [];
-  let leftHandPos = {x: 0, y: 0};
-  let rightHandPos = {x: 0, y: 0};
-  
+  let leftHandPos = { x: 0, y: 0 };
+  let rightHandPos = { x: 0, y: 0 };
+
   if (results.gestures.length > 1) {
     for (let gesture of results.gestures) {
       handGestures.push(gesture[0].categoryName);
     }
-    
+
     let areas = [];
     for (const landmarks of results.landmarks) {
-      const outerLandmarks = [landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
+      const outerLandmarks = [
+        landmarks[6],
+        landmarks[10],
+        landmarks[14],
+        landmarks[18],
+        landmarks[17],
+        landmarks[13],
+        landmarks[9],
+        landmarks[5],
+      ];
       areas.push(calculateArea(outerLandmarks));
-  if (results.gestures.length > 1) {
-    let leftHandIndex = 0;
+      if (results.gestures.length > 1) {
+        let leftHandIndex = 0;
 
-    if (results.handedness[0][0].categoryName === "Right") {
-      leftHandIndex = 1;
-    }
-
-    
-
-    for (let i = 0; i < results.landmarks.length; i++) {
-      let landmarks = results.landmarks[i];
-      // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
-      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
-      
-      // calc area and avg
-      let average = averagePoint(outerLandmarks);
-      
-      if(i === leftHandIndex){
-        leftHandPos = average;
-      }
-      else{
-        rightHandPos = average;
-      }
-      
-      drawingUtils.drawConnectors(
-        landmarks,
-        GestureRecognizer.HAND_CONNECTIONS,
-        {
-          color: "#00FF00",
-          lineWidth: 5,
+        if (results.handedness[0][0].categoryName === "Right") {
+          leftHandIndex = 1;
         }
+
+        for (let i = 0; i < results.landmarks.length; i++) {
+          let landmarks = results.landmarks[i];
+          // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
+          const outerLandmarks = [
+            landmarks[1],
+            landmarks[2],
+            landmarks[6],
+            landmarks[10],
+            landmarks[14],
+            landmarks[18],
+            landmarks[17],
+            landmarks[13],
+            landmarks[9],
+            landmarks[5],
+          ];
+
+          // calc area and avg
+          let average = averagePoint(outerLandmarks);
+
+          if (i === leftHandIndex) {
+            leftHandPos = average;
+          } else {
+            rightHandPos = average;
+          }
+
+          drawingUtils.drawConnectors(
+            landmarks,
+            GestureRecognizer.HAND_CONNECTIONS,
+            {
+              color: "#00FF00",
+              lineWidth: 5,
+            }
+          );
+          drawingUtils.drawLandmarks(landmarks, {
+            color: "#FF0000",
+            lineWidth: 2,
+          });
+        }
+
+        let distance = determineDistance(areas);
+
+        // Zeroing Check
+        if (allEqual(handGestures)) {
+          if (handGestures[0] === "None") {
+            setZeroDistance(areas);
+            distance = 0;
+          }
+        }
+
+        const angle = calculateAngle([leftHandPos, rightHandPos]);
+        //console.log('Angle:', angle);
+        //console.log("Velocity: ", boundVelocity(distance));
+        car_velocity = boundVelocity(distance);
+        car_angle = angle;
+      }
+
+      // Draw line between hands
+      canvasCtx.restore();
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
+      canvasCtx.lineTo(
+        rightHandPos.x * 480 * 2 + 180,
+        rightHandPos.y * 360 * 2
       );
-      drawingUtils.drawLandmarks(landmarks, {
-        color: "#FF0000",
-        lineWidth: 2,
-      });
-    }
+      canvasCtx.strokeStyle = "red";
+      canvasCtx.lineWidth = 5;
+      canvasCtx.stroke();
 
-    let distance = determineDistance(areas);
-
-    // Zeroing Check
-    if (allEqual(handGestures)) {
-      if (handGestures[0] === "None") {
-        setZeroDistance(areas);
-        distance = 0;
+      if (results.gestures.length > 0) {
+        gestureOutput.style.display = "block";
+        gestureOutput.style.width = videoWidth;
+        const categoryName = results.gestures[0][0].categoryName;
+        const categoryScore = parseFloat(
+          results.gestures[0][0].score * 100
+        ).toFixed(2);
+        const handedness = results.handednesses[0][0].displayName;
+        gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+      } else {
+        gestureOutput.style.display = "none";
       }
     }
-    
-    const angle = calculateAngle([leftHandPos, rightHandPos]);
-    //console.log('Angle:', angle);
-    //console.log("Velocity: ", boundVelocity(distance));
-  }
-
-  // Draw line between hands
-  canvasCtx.restore();
-  canvasCtx.beginPath();
-  canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
-  canvasCtx.lineTo(rightHandPos.x * 480 * 2 + 180, rightHandPos.y * 360 * 2);
-  canvasCtx.strokeStyle = "red";
-  canvasCtx.lineWidth = 5;
-  canvasCtx.stroke();
-
-  if (results.gestures.length > 0) {
-    gestureOutput.style.display = "block";
-    gestureOutput.style.width = videoWidth;
-    const categoryName = results.gestures[0][0].categoryName;
-    const categoryScore = parseFloat(
-      results.gestures[0][0].score * 100
-    ).toFixed(2);
-    const handedness = results.handednesses[0][0].displayName;
-    gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
-  } else {
-    gestureOutput.style.display = "none";
   }
 }
 
-  }}
+function getCarVelocity() {
+  return car_velocity;
+}
+
+function getCarAngle() {
+  return car_angle;
+}
