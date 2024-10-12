@@ -130,12 +130,19 @@ function displayVideoDetections(results) {
   let rightHandPos = { x: 0, y: 0 };
 
   if (results.gestures.length > 1) {
+    let leftHandIndex = 0;
+
+    if (results.handedness[0][0].categoryName === "Right") {
+      leftHandIndex = 1;
+    }
+
     for (let gesture of results.gestures) {
       handGestures.push(gesture[0].categoryName);
     }
 
     let areas = [];
-    for (const landmarks of results.landmarks) {
+    for (let i = 0; i < results.landmarks.length; i++) {
+      let landmarks = results.landmarks[i];
       const outerLandmarks = [
         landmarks[6],
         landmarks[10],
@@ -146,82 +153,58 @@ function displayVideoDetections(results) {
         landmarks[9],
         landmarks[5],
       ];
+
       areas.push(calculateArea(outerLandmarks));
-      if (results.gestures.length > 1) {
-        let leftHandIndex = 0;
 
-        if (results.handedness[0][0].categoryName === "Right") {
-          leftHandIndex = 1;
-        }
+      // calc area and avg
+      let average = averagePoint(outerLandmarks);
 
-        for (let i = 0; i < results.landmarks.length; i++) {
-          let landmarks = results.landmarks[i];
-          // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
-          const outerLandmarks = [
-            landmarks[1],
-            landmarks[2],
-            landmarks[6],
-            landmarks[10],
-            landmarks[14],
-            landmarks[18],
-            landmarks[17],
-            landmarks[13],
-            landmarks[9],
-            landmarks[5],
-          ];
-
-          // calc area and avg
-          let average = averagePoint(outerLandmarks);
-
-          if (i === leftHandIndex) {
-            leftHandPos = average;
-          } else {
-            rightHandPos = average;
-          }
-
-          drawingUtils.drawConnectors(
-            landmarks,
-            GestureRecognizer.HAND_CONNECTIONS,
-            {
-              color: "#00FF00",
-              lineWidth: 5,
-            }
-          );
-          drawingUtils.drawLandmarks(landmarks, {
-            color: "#FF0000",
-            lineWidth: 2,
-          });
-        }
-
-        let distance = determineDistance(areas);
-
-        // Zeroing Check
-        if (allEqual(handGestures)) {
-          if (handGestures[0] === "None") {
-            setZeroDistance(areas);
-            distance = 0;
-          }
-        }
-
-        const angle = calculateAngle([leftHandPos, rightHandPos]);
-        //console.log('Angle:', angle);
-        //console.log("Velocity: ", boundVelocity(distance));
-        car_velocity = boundVelocity(distance);
-        car_angle = angle;
+      if (i === leftHandIndex) {
+        leftHandPos = average;
+      } else {
+        rightHandPos = average;
       }
 
-      // Draw line between hands
-      canvasCtx.restore();
-      canvasCtx.beginPath();
-      canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
-      canvasCtx.lineTo(
-        rightHandPos.x * 480 * 2 + 180,
-        rightHandPos.y * 360 * 2
+      drawingUtils.drawConnectors(
+        landmarks,
+        GestureRecognizer.HAND_CONNECTIONS,
+        {
+          color: "#00FF00",
+          lineWidth: 5,
+        }
       );
-      canvasCtx.strokeStyle = "red";
-      canvasCtx.lineWidth = 5;
-      canvasCtx.stroke();
+
+      drawingUtils.drawLandmarks(landmarks, {
+        color: "#FF0000",
+        lineWidth: 2,
+      });
     }
+
+    let distance = determineDistance(areas);
+
+    // Zeroing Check
+    if (allEqual(handGestures)) {
+      if (handGestures[0] === "None") {
+        setZeroDistance(areas);
+        distance = 0;
+      }
+    }
+
+    const angle = calculateAngle([leftHandPos, rightHandPos]);
+    car_velocity = boundVelocity(distance);
+    car_angle = angle;
+
+    console.log("Velocity: ", getCarVelocity());
+    console.log("Angle: ", getCarAngle());
+
+    // Draw line between hands
+    canvasCtx.restore();
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
+    canvasCtx.lineTo(rightHandPos.x * 480 * 2 + 180, rightHandPos.y * 360 * 2);
+    canvasCtx.strokeStyle = "red";
+    canvasCtx.lineWidth = 5;
+    canvasCtx.stroke();
   }
 }
 
