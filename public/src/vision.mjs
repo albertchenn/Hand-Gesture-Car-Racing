@@ -170,6 +170,10 @@ function displayVideoDetections(results) {
       leftHandIndex = 1;
     }
 
+    
+    let leftHandPos = {x: 0, y: 0};
+    let rightHandPos = {x: 0, y: 0};
+
     for (let i = 0; i < results.landmarks.length; i++) {
       let landmarks = results.landmarks[i];
       // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
@@ -181,15 +185,11 @@ function displayVideoDetections(results) {
       let average = averagePoint(outerLandmarks);
       
       if(i === leftHandIndex){
-        console.log('left hand:',average.x, average.y);
+        leftHandPos = average;
       }
       else{
-        console.log('right hand:',average.x, average.y);
+        rightHandPos = average;
       }
-      
-      //calc angle
-      //const angle = calculateAngle([leftHandPos, rightHandPos]);
-      //console.log('angle:', angle);
       
       drawingUtils.drawConnectors(
         landmarks,
@@ -215,8 +215,10 @@ function displayVideoDetections(results) {
       }
     }
 
-    console.log("Distance: ", distance);
-    console.log("Velocity: ", boundVelocity(distance));
+    const angle = calculateAngle([leftHandPos, rightHandPos]);
+    console.log('Angle:', angle);
+    //console.log("Distance: ", distance);
+    //console.log("Velocity: ", boundVelocity(distance));
   }
 
   canvasCtx.restore();
