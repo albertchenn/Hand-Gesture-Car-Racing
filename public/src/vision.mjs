@@ -268,10 +268,10 @@ function displayVideoDetections(results) {
   }
 }
 
-function getCarVelocity() {
+export function getCarVelocity() {
   return car_velocity;
 }
 
-function getCarAngle() {
+export function getCarAngle() {
   return car_angle;
 }
