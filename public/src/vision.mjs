@@ -20,7 +20,9 @@ import {
 } from "https://cdn.skypack.dev/@mediapipe/tasks-vision@latest";
 
 import {
-  calculateArea
+  calculateArea,
+  determineDistance,
+  setZeroDistance
 } from "./mathhelp.js";
 
 // Create required variables.
@@ -30,6 +32,8 @@ let webcamRunning = false;
 
 const videoHeight = "360px";
 const videoWidth = "480px";
+
+const allEqual = arr => arr.every(val => val === arr[0]);
 
 // Initialize the object detector.
 async function initializeGestureRecognizer() {
@@ -147,11 +151,16 @@ function displayVideoDetections(results) {
   webcamElement.style.width = videoWidth;
 
   // Check if results.landmarks is defined
-  if (results) {
-    // console.log(results.gestures);
+  let handGestures = [];
+  if (results.gestures.length > 1) {
+    for (let gesture of results.gestures) {
+      handGestures.push(gesture[0].categoryName);
+    }
+    
+    let areas = [];
     for (const landmarks of results.landmarks) {
-      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
-      let area = calculateArea(outerLandmarks);
+      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
+      areas.push(calculateArea(outerLandmarks));
       
       drawingUtils.drawConnectors(
         landmarks,
@@ -166,6 +175,15 @@ function displayVideoDetections(results) {
         lineWidth: 2,
       });
     }
+
+    let distance = determineDistance(areas);
+    if (allEqual(handGestures)) {
+      if (handGestures[0] === "None") {
+        setZeroDistance(areas);
+        distance = 0;
+      }
+    }
+    console.log(distance);
   }
 
   canvasCtx.restore();
