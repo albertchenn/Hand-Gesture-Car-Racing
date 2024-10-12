@@ -180,8 +180,6 @@ function displayVideoDetections(results) {
       const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
       
       // calc area and avg
-      let isRightHand = results.handedness[0];
-      let area = calculateArea(outerLandmarks);
       let average = averagePoint(outerLandmarks);
       
       if(i === leftHandIndex){
