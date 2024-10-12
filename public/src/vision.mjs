@@ -22,7 +22,10 @@ import {
 import {
   calculateArea,
   determineDistance,
-  setZeroDistance
+  setZeroDistance,
+  averagePoint,
+  calculateAngle,
+  boundVelocity
 } from "./mathhelp.js";
 
 // Create required variables.
@@ -150,7 +153,6 @@ function displayVideoDetections(results) {
   canvasElement.style.width = videoWidth;
   webcamElement.style.width = videoWidth;
 
-  // Check if results.landmarks is defined
   let handGestures = [];
   if (results.gestures.length > 1) {
     for (let gesture of results.gestures) {
@@ -159,8 +161,33 @@ function displayVideoDetections(results) {
     
     let areas = [];
     for (const landmarks of results.landmarks) {
-      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
+      const outerLandmarks = [landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];      
       areas.push(calculateArea(outerLandmarks));
+  if (results.gestures.length > 1) {
+    let leftHandIndex = 0;
+
+    if (results.handedness[0][0].categoryName === "Right") {
+      leftHandIndex = 1;
+    }
+
+    
+    let leftHandPos = {x: 0, y: 0};
+    let rightHandPos = {x: 0, y: 0};
+
+    for (let i = 0; i < results.landmarks.length; i++) {
+      let landmarks = results.landmarks[i];
+      // landmarks is an array of 21 (x, y) coordinates of the hand landmarks.
+      const outerLandmarks = [landmarks[1], landmarks[2], landmarks[6], landmarks[10], landmarks[14], landmarks[18], landmarks[17], landmarks[13], landmarks[9], landmarks[5]];
+      
+      // calc area and avg
+      let average = averagePoint(outerLandmarks);
+      
+      if(i === leftHandIndex){
+        leftHandPos = average;
+      }
+      else{
+        rightHandPos = average;
+      }
       
       drawingUtils.drawConnectors(
         landmarks,
@@ -177,13 +204,18 @@ function displayVideoDetections(results) {
     }
 
     let distance = determineDistance(areas);
+
+    // Zeroing Check
     if (allEqual(handGestures)) {
       if (handGestures[0] === "None") {
         setZeroDistance(areas);
         distance = 0;
       }
     }
-    console.log(distance);
+
+    const angle = calculateAngle([leftHandPos, rightHandPos]);
+    console.log('Angle:', angle);
+    console.log("Velocity: ", boundVelocity(distance));
   }
 
   canvasCtx.restore();
@@ -200,3 +232,5 @@ function displayVideoDetections(results) {
     gestureOutput.style.display = "none";
   }
 }
+
+  }}
