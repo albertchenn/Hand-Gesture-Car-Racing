@@ -23,3 +23,7 @@ export function setZeroDistance(areas) {
 
     zeroDistance = determineDistance(areas);
 }
+
+export function boundVelocity(distance) {
+    return Math.max(-6, Math.min(0, distance)) * -100/6
+}

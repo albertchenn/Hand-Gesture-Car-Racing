@@ -22,7 +22,8 @@ import {
 import {
   calculateArea,
   determineDistance,
-  setZeroDistance
+  setZeroDistance,
+  boundVelocity
 } from "./mathhelp.js";
 
 // Create required variables.
@@ -185,7 +186,9 @@ function displayVideoDetections(results) {
         distance = 0;
       }
     }
-    console.log(distance);
+
+    console.log("Distance: ", distance);
+    console.log("Velocity: ", boundVelocity(distance));
   }
 
   canvasCtx.restore();
