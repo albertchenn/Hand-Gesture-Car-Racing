@@ -3,6 +3,8 @@ export const VELOCITY_THRESHOLD = 20;
 
 export const VELOCITY_MULTIPLIER = 2;
 
+export const OFFROAD_MULTIPLIER = 0.5;
+
 export const VELOCITY_CUSHION = 1;
 export const TURNING_SPEED = 0.15;
 
