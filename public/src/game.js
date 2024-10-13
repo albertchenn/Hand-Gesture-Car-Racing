@@ -30,8 +30,10 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     
     app.ticker.add(() => {
         let targetAngle = getCarAngle();
+        let targetVelocity = getCarVelocity();
 
-        rotate(targetAngle);
+        // rotate(targetAngle);
+        move(targetVelocity);
     });
 
     
@@ -43,4 +45,9 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
             background.angle += 2;
         }
     }
+
+    function move(targetVelocity) {
+        background.y += targetVelocity;
+    }
+
 })();

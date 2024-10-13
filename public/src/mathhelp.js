@@ -41,5 +41,5 @@ export function calculateAngle(points){
 }
 
 export function boundVelocity(distance) {
-    return Math.max(-6, Math.min(0, distance)) * -100/6;
+    return Math.max(-6, Math.min(0, distance)) * -20/6;
 }

@@ -206,6 +206,10 @@ function displayVideoDetections(results) {
     canvasCtx.lineWidth = 5;
     canvasCtx.stroke();
   }
+  else {
+    car_velocity = 0;
+    car_angle = 0;
+  }
 }
 
 export function getCarVelocity() {
