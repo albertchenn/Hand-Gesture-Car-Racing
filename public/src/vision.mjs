@@ -194,8 +194,8 @@ function displayVideoDetections(results) {
     car_velocity = boundVelocity(distance);
     car_angle = angle;
 
-    console.log("Velocity: ", getCarVelocity());
-    console.log("Angle: ", getCarAngle());
+    // console.log("Velocity: ", getCarVelocity());
+    // console.log("Angle: ", getCarAngle());
 
     // Draw line between hands
     canvasCtx.restore();
