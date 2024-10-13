@@ -37,10 +37,10 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     
     function rotate(targetAngle) {
         if (targetAngle < 0) {
-            car.angle += 5;
+            background.angle -= 2;
         }
         else {
-            car.angle -= 5;
+            background.angle += 2;
         }
     }
 })();
