@@ -64,3 +64,29 @@
     border-color: #fff;
     color: #fff;
 }
+
+.vhs { 
+    /* padding-top: 100px; */
+    /* padding-left: 50px; */
+    /* height: 550px; */
+    /* background: #111; */
+    color: #f8f8f8;
+    text-shadow: 0.06rem 0 0.06rem #f20000, -0.125rem 0 0.06rem #f20000;
+    animation-duration: 0.01s;
+    animation-name: textflicker;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  
+  .vhs span {
+    letter-spacing: 2px;
+  }
+  
+  @keyframes textflicker {
+    from {
+      text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+    }
+    to {
+      text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+    }
+  }
