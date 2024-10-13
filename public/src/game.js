@@ -1,15 +1,17 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
 import { getCarVelocity, getCarAngle } from './vision.mjs';
-import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED, OFFROAD_MULTIPLIER } from './constants.js';
+import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED, OFFROAD_MULTIPLIER, BG_OFFSET_HEIGHT, BG_OFFSET_WIDTH, ON_ROAD_COLOR, FINISH_COLOR, CHECKPOINTS } from './constants.js';
 import { endTimer, hasTimerStarted } from './timer.js';
 
 (async () => {
     const canvas = document.getElementById('gameCanvas');
     const app = new Application({
         view: canvas,
-        backgroundColor: 0x1099bb,
+        backgroundColor: 0xffffff,
         resizeTo: window,
     });
+
+    const allEqual = arr => arr.every( v => v === arr[0] )
 
     // Create an off-screen canvas to get pixel data
     const offScreenCanvas = document.createElement('canvas');
@@ -27,8 +29,8 @@ import { endTimer, hasTimerStarted } from './timer.js';
 
     car.x = app.screen.width / 2;
     car.y = app.screen.height / 2;
-    background.x = app.screen.width / 2;
-    background.y = app.screen.height / 2;
+    background.x = app.screen.width + BG_OFFSET_WIDTH;
+    background.y = app.screen.height + BG_OFFSET_HEIGHT;
     background.scale.set(BACKGROUND_SCALE);
 
     car.anchor.set(0.5);
@@ -38,11 +40,11 @@ import { endTimer, hasTimerStarted } from './timer.js';
     app.stage.addChild(car);
 
     let targetAngle = 0;
-    const onRoadColor = { r: 255, g: 0, b: 0 };
-    const finishColor = { r: 0, g: 255, b: 9 };
 
     let offRoad = false;
-    
+
+    let checkpoint = 0;
+    let reached = [false, false, false, false, false, false, false, false, false];
 
     app.ticker.add(() => {
         if (hasTimerStarted()) {
@@ -59,15 +61,13 @@ import { endTimer, hasTimerStarted } from './timer.js';
             rotate(targetAngle);
             move(targetVelocity);
 
-            if (isSpriteTouchingColor(car, onRoadColor)) {
+            if (isSpriteTouchingColor(car, ON_ROAD_COLOR)) {
                 offRoad = false;
             } else {
                 offRoad = true;
-            }
+            }            
 
-            if (isSpriteTouchingColor(car, finishColor)) {
-                endTimer();
-            }
+            checkpointCheck();
         }
     });
 
@@ -85,7 +85,7 @@ import { endTimer, hasTimerStarted } from './timer.js';
         }
 
         let debuggingCode = document.getElementById('debuggingCode');
-        debuggingCode.innerHTML = `Speed: ${Math.round(getCarVelocity())} m/s<br>Turning Angle: ${Math.round(getCarAngle() * 57.2958)} degrees<br>Car Angle: ${Math.round(car.angle)} degrees<br>Offroad?: ${offRoad}`;
+        debuggingCode.innerHTML = `Speed: ${Math.round(getCarVelocity())} m/s<br>Turning Angle: ${Math.round(getCarAngle() * 57.2958)} degrees<br>Car Angle: ${Math.round(car.angle)} degrees<br>Offroad?: ${offRoad}<br>Checkpoint: ${checkpoint + 1}`;
 
         background.x += Math.sin(targetAngle) * targetVelocity;
         background.y += Math.cos(targetAngle) * targetVelocity;
@@ -118,6 +118,23 @@ import { endTimer, hasTimerStarted } from './timer.js';
         }
 
         return false;  // No match found, sprite is not touching the color
+    }
+
+    function checkpointCheck() {
+        if (checkpoint === 9) {
+            return;
+        }
+        // create sequential checkpoints
+        if (isSpriteTouchingColor(car, CHECKPOINTS[checkpoint]) && checkpoint < 9) {
+            reached[checkpoint] = true;
+            checkpoint++;
+            console.log(reached);
+        }
+
+        if (allEqual(reached) && reached[8] === true) {
+            console.log('hit finish line');
+            endTimer();
+        }
     }
 
 })();
