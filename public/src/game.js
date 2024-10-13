@@ -2,10 +2,14 @@ import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.j
 import { getCarVelocity, getCarAngle } from './vision.mjs';
 
 (async () => {
+    const canvas = document.getElementById('gameCanvas');
     const app = new Application({
+        view: canvas,
         backgroundColor: 0x1099bb,
         resizeTo: window,
+
     });
+
 
     document.body.appendChild(app.view);
 

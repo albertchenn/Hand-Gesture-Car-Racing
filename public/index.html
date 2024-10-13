@@ -28,32 +28,34 @@ limitations under the License. -->
 </head>
 <body>
 
-  <h1>Car Racing Game </h1>
-
   <section id="demos">
     <div id="liveView" class="videoView">
-      <div style="position: absolute; bottom: 0; left: 0; transform: translate(0%, 0%);">
-        <video id="webcam" autoplay playsinline></video>
-        <canvas class="output_canvas" id="output_canvas" width="1280" height="720" style="position: absolute; left: 0px; top: 0px;"></canvas>
+      <div>
+        <video id="webcam" autoplay playsinline style="position: fixed; left:0; bottom:0; margin: 0;"></video>
+        <canvas class="output_canvas" id="output_canvas" width="1280" height="720" style="position: fixed; left:0; bottom:0; margin: 0;"></canvas>
         <p id='gesture_output' class="output"></p>
       </div>
     </div>
   </section>
 
-  <div class="timer">
-    <div class="timer-background"></div>
-    <div class="timer-text"><p>Time Lap: <span class="stopwatch">00:00:000</span></p></div>  <!-- remove the place holder text in span later -->
-  </div>
+  
 
 
   <script src="https://pixijs.download/release/pixi.js"></script>
   
+
+  
+  <canvas id="gameCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
   <script type="module" src = "./src/game.js"></script>
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <script type="module" src = "./src/vision.mjs"></script>
   <script type="module" src="./src/timer.js"></script>
+  <div class="timer" style="position: fixed; top:0; left:0;">
+    <div class="timer-background"></div>
+    <div class="timer-text"><p>Time Lap: <span class="stopwatch">00:00:000</span></p></div>  <!-- remove the place holder text in span later -->
+  </div>
 
-  <div id="debuggingCode"></div>
+  <div id="debuggingCode" style="position: fixed; bottom:0; left: 0; z-index: 1; color: white; background-color: black;"></div>
   
 </body>
 </html>
