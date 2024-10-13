@@ -53,30 +53,40 @@ limitations under the License. -->
     3
   </div>
 
-  <div class="slidecontainer" style="right: 0; top: 50px; position: fixed; display: flex; align-items: center; margin: 10px;">
-    <h1 style="font-family: 'Minecraft';">Velocity Multiplier</h1>
-    <input type="range" step="0.1" min="0" max="10" value="4" class="slider" id="maxVelocityMultiplier">
-    <span id="sliderVelocityMultiplier" style="color: white;">50</span> 
-    <input type="hidden" id="velocityMultiplier" value="50">
+
+  <div id="menuContent" style="visibility: hidden; position: fixed; right: 0; top: 0px;">
+    <div class="slidecontainer" style="right: 100px; top: 50px; position: fixed; display: flex; align-items: center; margin: 10px;">
+      <h1 style="font-family: 'Minecraft';">Velocity Multiplier</h1>
+      <input type="range" step="0.1" min="0" max="10" value="4" class="slider" id="maxVelocityMultiplier">
+      <span id="sliderVelocityMultiplier" style="color: white;">4</span> 
+    </div>
+
+    <div class="slidecontainer" style="right: 100px; top: 100px; position: fixed; display: flex; align-items: center; margin: 10px;">
+      <h1 style="font-family: 'Minecraft';">Turning Speed</h1>
+      <input type="range" step="0.01" min="0" max=".3" value="0.15" class="slider" id="maxTurningSpeed">
+      <span id="sliderTurningSpeed" style="color: white;">0.15</span> 
+    </div>
+
+    <div class="slidecontainer" style="right: 100px; top: 150px; position: fixed; display: flex; align-items: center; margin: 10px;">
+      <h1 style="font-family: 'Minecraft';">Offroad Speed</h1>
+      <input type="range" step="0.01" min="0" max="1" value="0.5" class="slider" id="maxOffroadSpeed">
+      <span id="sliderOffroadSpeed" style="color: white;">0.5</span> 
+    </div>
+
+    <div class="slidecontainer" style="right: 100px; top: 0px; position: fixed; display: flex; align-items: center; margin: 10px;">
+      <h1 style="font-family: 'Minecraft';">Max Velocity</h1>
+      <input type="range" step="1" min="10" max="30" value="20" class="slider" id="maxVelocity">
+      <span id="sliderMaxVelocity" style="color: white;">20</span> 
+    </div>
+</div>
+
+  
   </div>
-  <div class="slidecontainer" style="right: 0; top: 100px; position: fixed; display: flex; align-items: center; margin: 10px;">
-    <h1 style="font-family: 'Minecraft';">Turning Speed</h1>
-    <input type="range" step="0.01" min="0" max="1" value="0.15" class="slider" id="maxTurningSpeed">
-    <span id="sliderTurningSpeed" style="color: white;">50</span> 
-    <input type="hidden" id="turningSpeedMultiplier" value="50">
-  </div>
-  <div class="slidecontainer" style="right: 0; top: 150px; position: fixed; display: flex; align-items: center; margin: 10px;">
-    <h1 style="font-family: 'Minecraft';">Offroad Speed</h1>
-    <input type="range" step="0.01" min="0" max="1" value="0.15" class="slider" id="maxOffroadSpeed">
-    <span id="sliderOffroadSpeed" style="color: white;">50</span> 
-    <input type="hidden" id="offroadMultiplier" value="50">
-  </div>
-  <div class="slidecontainer" style="right: 0; top: 0px; position: fixed; display: flex; align-items: center; margin: 10px;">
-    <h1 style="font-family: 'Minecraft';">Max Velocity</h1>
-    <input type="range" step="1" min="10" max="30" value="20" class="slider" id="maxVelocity">
-    <span id="sliderMaxVelocity" style="color: white;">50</span> 
-    <input type="hidden" id="maxVelocityMultiplier" value="50">
-  </div>
+  <button onclick="toggleMenu()" style="position: fixed; right: 0; top:0; background-color: transparent; border: 0;">
+    <img src="./Assets/gear.png" alt="settings" style="width: 100px; height: 100px; background-color: transparent;">
+  </button>
+
+
 
   <div id="debuggingCode" style="position: fixed; bottom:380px; left: 0; z-index: 1; color: white; background-color: black; font-family: 'Minecraft';"></div>
 
@@ -89,6 +99,16 @@ limitations under the License. -->
   <script type="module" src="./src/countdown.js"></script>
   <script type="module" src="./src/constants.js"></script>
   <script type="module" src="./src/sliders.js"></script>
+  <script>
+    function toggleMenu() {
+      const menuContent = document.getElementById('menuContent');
+      if (menuContent.style.visibility === 'hidden') {
+        menuContent.style.visibility = 'visible';
+      } else {
+        menuContent.style.visibility = 'hidden';
+      }
+    }
+  </script>
   <!-- <script type="module" src="./src/start-animation.js"></script> -->
 </body>
 </html>
