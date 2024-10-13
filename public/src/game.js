@@ -10,7 +10,6 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
 
     });
 
-
     document.body.appendChild(app.view);
 
     const car_texture = await Assets.load('/Assets/car.png');
@@ -19,81 +18,51 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     const car = new Sprite(car_texture);
     const background = new Sprite(background_texture);
     
-
     car.x = app.screen.width / 2;
     car.y = app.screen.height / 2;
     background.x = app.screen.width / 2;
     background.y = app.screen.height / 2;
     background.scale.set(8);
 
-    
-
     car.anchor.set(0.5);
     background.anchor.set(0.5);
-
 
     app.stage.addChild(background);
     app.stage.addChild(car);
     
     let targetAngle = 0;
-    const turningSpeed = 0.01;
+    const turningSpeed = 0.1;
 
     app.ticker.add(() => {
-        background.anchor.set(0.5);
-        targetAngle += turningSpeed * getCarAngle();
         let targetVelocity = getCarVelocity();
-        // let targetVelocity = 0;
-
-        if (targetVelocity > 6) {
-            targetVelocity = 6;
-        } else if (targetVelocity < -6) {
-            targetVelocity = -6;
-        }
-
-        if( targetVelocity < 1 && targetVelocity > -1) {
-            targetVelocity = 0;
-        }
+        targetAngle += turningSpeed * getCarAngle();
 
         if (!targetAngle) {
             targetAngle = 0
         }
-        else if (targetAngle > Math.PI * 2) {
-            targetAngle -= Math.PI * 2;
-        }
 
-        // background.anchor.set((background.x / app.screen.width, background.y / app.screen.height));
         rotate(targetAngle);
         move(targetVelocity);
-        car.angle = targetAngle;
-        car.rotation = -targetAngle;
-
-        
-
-        background.x += Math.sin(targetAngle) * targetVelocity;
-        background.y += Math.cos(targetAngle) * targetVelocity;
-        
-
-        // car.angle = -background.angle;
-        // const debuggingCode = document.getElementById('debuggingCode');
-        // debuggingCode.innerHTML = `X Vel: ${-Math.sin(targetAngle) * targetVelocity}<br>Y Vel: ${Math.cos(targetAngle) * targetVelocity}<br>Turning Angle: ${background.angle}`;
-
     });
 
     function rotate(targetAngle) {
-        if (targetAngle < 0) {
-            //background.angle -= 2;
+        if (targetAngle > Math.PI * 2) {
+            targetAngle -= Math.PI * 2;
         }
-        else if (targetAngle > 0) {
-            //background.angle += 2;
-        }
+
+        car.rotation = -targetAngle;
 
     }
 
     function move(targetVelocity) {
-        //background.anchor.set(0.5);
-        let turningAngle = background.angle;
+        if( targetVelocity < 1 && targetVelocity > -1) {
+            targetVelocity = 0;
+        }
+
         let debuggingCode = document.getElementById('debuggingCode');
         debuggingCode.innerHTML = `Magnitude: ${getCarVelocity()}<br>Turning Angle: ${getCarAngle()}<br>Car Angle: ${car.angle}`;
         
+        background.x += Math.sin(targetAngle) * targetVelocity;
+        background.y += Math.cos(targetAngle) * targetVelocity;
     }   
 })();
