@@ -1,4 +1,5 @@
-import { ANGLE_THRESHOLD, VELOCITY_THRESHOLD, VELOCITY_MULTIPLIER } from "./constants.js";
+import { ANGLE_THRESHOLD, VELOCITY_THRESHOLD } from "./constants.js";
+import { VELOCITY_MULTIPLIER } from "./sliders.js";
 
 let zeroDistance = 0;
 

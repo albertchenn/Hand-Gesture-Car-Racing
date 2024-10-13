@@ -54,6 +54,12 @@ limitations under the License. -->
     3
   </div>
 
+  <div class="slidecontainer" style="right: 0; top: 0; position: fixed; display: flex; align-items: center; margin: 10px;">
+    <h1 style="font-family: 'Minecraft';">Velocity</h1>
+    <input type="range" min="1" max="100" value="50" class="slider" id="maxVelocity">
+    <span id="sliderValue" style="color: white;">50</span> 
+    <input type="hidden" id="velocityMultiplier" value="50">
+  </div>
 
   <div id="debuggingCode" style="position: fixed; bottom:380px; left: 0; z-index: 1; color: white; background-color: black; font-family: 'Minecraft';"></div>
 
@@ -64,5 +70,7 @@ limitations under the License. -->
   <script type="module" src = "./src/vision.mjs"></script>
   <script type="module" src="./src/timer.js"></script>
   <script type="module" src="./src/countdown.js"></script>
+  <script type="module" src="./src/constants.js"></script>
+  <script type="module" src="./src/sliders.js"></script>
 </body>
 </html>
