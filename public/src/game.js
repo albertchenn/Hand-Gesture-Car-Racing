@@ -8,14 +8,14 @@ import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.j
     
     document.body.appendChild(app.view); 
 
-    const texture = await Assets.load('https://i.ibb.co/M8pm8fm/bunny.png'); 
+    const texture = await Assets.load('../Assets/car.png');
 
-    const bunny = new Sprite(texture);
+    const car = new Sprite(texture);
 
-    bunny.x = app.screen.width / 2;
-    bunny.y = app.screen.height / 2;
+    car.x = app.screen.width / 2;
+    car.y = app.screen.height / 2;
 
-    bunny.anchor.set(0.5);
+    car.anchor.set(0.5);
 
-    app.stage.addChild(bunny);
+    app.stage.addChild(car);
 })();
