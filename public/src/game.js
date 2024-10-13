@@ -8,18 +8,27 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     });
     
     document.body.appendChild(app.view); 
+    //../Assets/placeholder_track.png
 
-    const texture = await Assets.load('../Assets/car.png');
+    const car_texture = await Assets.load('/Assets/car.png');
+    const background_texture = await Assets.load('../Assets/placeholder_track.png');
 
-    const car = new Sprite(texture);
+    const car = new Sprite(car_texture);
+    const background = new Sprite(background_texture);
 
     car.x = app.screen.width / 2;
     car.y = app.screen.height / 2;
+    background.x = app.screen.width / 2;
+    background.y = app.screen.height / 2;
+    background.scale.set(8);
 
     car.anchor.set(0.5);
+    background.anchor.set(0.5);
 
+    app.stage.addChild(background);
     app.stage.addChild(car);
     
+<<<<<<< HEAD
     app.ticker.add(() => {
         let targetAngle = getCarAngle();
 
@@ -35,4 +44,6 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
             car.angle += 1;
         }
     }
+=======
+>>>>>>> 4754ec0147379f7ec5a5aca57846cd3c17e98e77
 })();
