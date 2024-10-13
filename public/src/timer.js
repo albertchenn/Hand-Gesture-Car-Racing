@@ -36,17 +36,12 @@ function startTimer() {
     isOn = true;
 };
 
+function endTimer() {
+    clearInterval(intervalID);
+}
 
+function hasTimerStarted() {
+    return isOn;
+}
 
-function handleClick() {
-    if (isOn === true) {
-        clearInterval(intervalID);
-        isOn = false;
-    } else {
-        startTimer();
-    }
-};
-
-timer.addEventListener("click", handleClick);
-
-export {formatTime, startTimer, timer, stopwatch};
+export {formatTime, startTimer, timer, stopwatch, endTimer, hasTimerStarted};

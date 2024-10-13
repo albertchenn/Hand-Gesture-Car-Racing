@@ -1,6 +1,7 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
 import { getCarVelocity, getCarAngle } from './vision.mjs';
 import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED, OFFROAD_MULTIPLIER } from './constants.js';
+import { endTimer, hasTimerStarted } from './timer.js';
 
 (async () => {
     const canvas = document.getElementById('gameCanvas');
@@ -38,27 +39,35 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
 
     let targetAngle = 0;
     const onRoadColor = { r: 255, g: 0, b: 0 };
+    const finishColor = { r: 0, g: 255, b: 9 };
+
     let offRoad = false;
     
 
     app.ticker.add(() => {
-        let targetVelocity = getCarVelocity();
-        if (offRoad) {
-            targetVelocity *= OFFROAD_MULTIPLIER;
-        }
+        if (hasTimerStarted()) {
+            let targetVelocity = getCarVelocity();
+            if (offRoad) {
+                targetVelocity *= OFFROAD_MULTIPLIER;
+            }
         targetAngle += TURNING_SPEED * getCarAngle();
 
-        if (!targetAngle) {
-            targetAngle = 0;
-        }
+            if (!targetAngle) {
+                targetAngle = 0;
+            }
 
-        rotate(targetAngle);
-        move(targetVelocity);
+            rotate(targetAngle);
+            move(targetVelocity);
 
-        if (isSpriteTouchingColor(car, onRoadColor)) {
-            offRoad = false;
-        } else {
-            offRoad = true;
+            if (isSpriteTouchingColor(car, onRoadColor)) {
+                offRoad = false;
+            } else {
+                offRoad = true;
+            }
+
+            if (isSpriteTouchingColor(car, finishColor)) {
+                endTimer();
+            }
         }
     });
 
@@ -110,4 +119,5 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
 
         return false;  // No match found, sprite is not touching the color
     }
+
 })();

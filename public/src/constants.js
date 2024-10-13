@@ -11,7 +11,7 @@ export const TURNING_SPEED = 0.15;
 export const BACKGROUND_SCALE = 4;
 
 export const CAR_PNG = '/Assets/car.png';
-export const BACKGROUND_PNG = '/Assets/test_track_1.png';
+export const BACKGROUND_PNG = '/Assets/test_track_2.png';
 
 export const VIDEO_WIDTH = 480;
 export const VIDEO_HEIGHT = 360;
