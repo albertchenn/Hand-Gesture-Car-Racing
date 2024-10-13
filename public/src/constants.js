@@ -1,5 +1,4 @@
 export const ANGLE_THRESHOLD = 0.175;
-export const VELOCITY_THRESHOLD = 20;
 
 export const VELOCITY_CUSHION = 1;
 

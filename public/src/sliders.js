@@ -1,9 +1,10 @@
 export let VELOCITY_MULTIPLIER = 4;
 export let TURNING_SPEED = 0.15;
 export let OFFROAD_MULTIPLIER = 0.5;
+export let VELOCITY_THRESHOLD = 20;
 
-const slider = document.getElementById("maxVelocity");
-const sliderVelocity = document.getElementById("sliderVelocity");
+const slider = document.getElementById("maxVelocityMultiplier");
+const sliderVelocity = document.getElementById("sliderVelocityMultiplier");
 const velocityMultiplier = document.getElementById("velocityMultiplier");
 
 function updateVelocity() {
@@ -35,7 +36,19 @@ function updateOffroadSpeed() {
 }
 slider3.addEventListener("input", updateOffroadSpeed);
 
+const slider4 = document.getElementById("maxVelocity");
+const sliderMaxVelocity = document.getElementById("sliderMaxVelocity");
+const maxVelocityMultiplier = document.getElementById("maxVelocityMultiplier");
+
+function updateMaxVelocity() {
+    VELOCITY_THRESHOLD = slider4.value;
+    sliderMaxVelocity.textContent = VELOCITY_THRESHOLD; 
+    maxVelocityMultiplier.value = VELOCITY_THRESHOLD;
+}
+
+slider4.addEventListener("input", updateMaxVelocity);
 
 updateVelocity();
 updateTurningSpeed();
 updateOffroadSpeed();
+updateMaxVelocity();
