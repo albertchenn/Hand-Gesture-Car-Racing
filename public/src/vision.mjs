@@ -208,7 +208,7 @@ function displayVideoDetections(results) {
   }
   else {
     car_velocity = 0;
-    car_angle = 0;
+    car_angle = undefined;
   }
 }
 
