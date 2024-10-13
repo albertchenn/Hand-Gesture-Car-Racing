@@ -28,7 +28,6 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     app.stage.addChild(background);
     app.stage.addChild(car);
     
-<<<<<<< HEAD
     app.ticker.add(() => {
         let targetAngle = getCarAngle();
 
@@ -44,6 +43,4 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
             car.angle += 1;
         }
     }
-=======
->>>>>>> 4754ec0147379f7ec5a5aca57846cd3c17e98e77
 })();
