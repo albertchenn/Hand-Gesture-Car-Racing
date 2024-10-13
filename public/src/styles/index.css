@@ -7,7 +7,7 @@
     font-style: normal;
 } 
 
-.timer {
+.btn {
     font-family: 'Minecraft', sans-serif;
     width: 363px;
     height: 76px;
@@ -21,14 +21,14 @@
     align-items: center;
 }
 
-.timer-background {
+.btn-background {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: white;
 }
 
-.timer-text {
+.btn-text {
     font-size: 36px;
     color: black;
     z-index: 1;
