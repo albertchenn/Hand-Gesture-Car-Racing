@@ -2,10 +2,10 @@ export const ANGLE_THRESHOLD = 0.175;
 
 export const VELOCITY_CUSHION = 1;
 
-export const BACKGROUND_SCALE = 4;
+export const BACKGROUND_SCALE = 36;
 
 export const CAR_PNG = '/Assets/car.png';
-export const BACKGROUND_PNG = '/Assets/track_updated.png';
+export const BACKGROUND_PNG = '/Assets/pixel_race_track.png';
 
 export const VIDEO_WIDTH = 480;
 export const VIDEO_HEIGHT = 360;
