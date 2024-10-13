@@ -6,7 +6,7 @@ export const VELOCITY_MULTIPLIER = 2;
 export const VELOCITY_CUSHION = 1;
 export const TURNING_SPEED = 0.15;
 
-export const BACKGROUND_SCALE = 8;
+export const BACKGROUND_SCALE = 4;
 
 export const CAR_PNG = '/Assets/car.png';
 export const BACKGROUND_PNG = '/Assets/test_track_1.png';
