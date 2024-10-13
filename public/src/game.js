@@ -85,7 +85,7 @@ import { endTimer, hasTimerStarted } from './timer.js';
         }
 
         let debuggingCode = document.getElementById('debuggingCode');
-        debuggingCode.innerHTML = `Magnitude: ${getCarVelocity()}<br>Turning Angle: ${getCarAngle()}<br>Car Angle: ${car.angle}<br>Offroad?: ${offRoad}`;
+        debuggingCode.innerHTML = `Speed: ${Math.round(getCarVelocity())} m/s<br>Turning Angle: ${Math.round(getCarAngle() * 57.2958)} degrees<br>Car Angle: ${Math.round(car.angle)} degrees<br>Offroad?: ${offRoad}`;
 
         background.x += Math.sin(targetAngle) * targetVelocity;
         background.y += Math.cos(targetAngle) * targetVelocity;
