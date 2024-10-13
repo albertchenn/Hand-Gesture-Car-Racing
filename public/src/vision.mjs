@@ -198,17 +198,8 @@ function displayVideoDetections(results) {
     car_velocity = boundVelocity(distance);
     car_angle = angle;
 
-    // console.log("Velocity: ", getCarVelocity());
-    // console.log("Angle: ", getCarAngle());
-
     // Draw line between hands
-    canvasCtx.restore();
-    canvasCtx.beginPath();
-    canvasCtx.moveTo(leftHandPos.x * VIDEO_WIDTH * 2 + 180, leftHandPos.y * VIDEO_HEIGHT * 2);
-    canvasCtx.lineTo(rightHandPos.x * VIDEO_WIDTH * 2 + 180, rightHandPos.y * VIDEO_HEIGHT * 2);
-    canvasCtx.strokeStyle = "red";
-    canvasCtx.lineWidth = 5;
-    canvasCtx.stroke();
+    drawLine(canvasCtx, leftHandPos, rightHandPos);
   }
   else {
     car_velocity = 0;
@@ -216,6 +207,15 @@ function displayVideoDetections(results) {
   }
 }
 
+function drawLine(canvasCtx, start, end) {
+  canvasCtx.restore();
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(start.x * VIDEO_WIDTH * 2 + 180, start.y * VIDEO_HEIGHT * 2);
+  canvasCtx.lineTo(end.x * VIDEO_WIDTH * 2 + 180, end.y * VIDEO_HEIGHT * 2);
+  canvasCtx.strokeStyle = "red";
+  canvasCtx.lineWidth = 5;
+  canvasCtx.stroke();
+}
 export function getCarVelocity() {
   return car_velocity;
 }
