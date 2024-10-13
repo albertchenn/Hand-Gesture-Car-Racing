@@ -37,7 +37,9 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
     app.stage.addChild(car);
 
     let targetAngle = 0;
-    const targetColor = { r: 255, g: 0, b: 0 };
+    const onRoadColor = { r: 255, g: 0, b: 0 };
+    const offRoad = false;
+    
 
     app.ticker.add(() => {
         let targetVelocity = getCarVelocity();
@@ -50,10 +52,10 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
         rotate(targetAngle);
         move(targetVelocity);
 
-        if (isSpriteTouchingColor(car, targetColor)) {
-            console.log('The sprite is touching the red color!');
+        if (isSpriteTouchingColor(car, onRoadColor)) {
+            offRoad = false;
         } else {
-            console.log('No red color detected under the sprite.');
+            offRoad = true;
         }
     });
 
@@ -71,7 +73,7 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
         }
 
         let debuggingCode = document.getElementById('debuggingCode');
-        debuggingCode.innerHTML = `Magnitude: ${getCarVelocity()}<br>Turning Angle: ${getCarAngle()}<br>Car Angle: ${car.angle}`;
+        debuggingCode.innerHTML = `Magnitude: ${getCarVelocity()}<br>Turning Angle: ${getCarAngle()}<br>Car Angle: ${car.angle}<br>Offroad?: ${offRoad}`;
 
         background.x += Math.sin(targetAngle) * targetVelocity;
         background.y += Math.cos(targetAngle) * targetVelocity;
