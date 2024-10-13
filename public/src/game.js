@@ -37,31 +37,46 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     
 
     app.ticker.add(() => {
+        background.anchor.set(0.5);
         let targetAngle = getCarAngle();
-        // let targetVelocity = getCarVelocity();
-        let targetVelocity = 5;
+        let targetVelocity = getCarVelocity();
+        // let targetVelocity = 0;
 
         if (!targetAngle) {
             targetAngle = 0
         }
+
+        // background.anchor.set((background.x / app.screen.width, background.y / app.screen.height));
         rotate(targetAngle);
         move(targetVelocity);
 
-        const debuggingCode = document.getElementById('debuggingCode');
-        debuggingCode.innerHTML = `Car Angle: ${targetAngle}<br>Car Velocity: ${targetVelocity}`;
+        // car.angle = -background.angle;
+        // const debuggingCode = document.getElementById('debuggingCode');
+        // debuggingCode.innerHTML = `X Vel: ${-Math.sin(targetAngle) * targetVelocity}<br>Y Vel: ${Math.cos(targetAngle) * targetVelocity}<br>Turning Angle: ${background.angle}`;
+
     });
 
     function rotate(targetAngle) {
+        background.anchor.set((background.x / app.screen.width, background.y / app.screen.height));
         if (targetAngle < 0) {
             background.angle -= 2;
         }
         else if (targetAngle > 0) {
             background.angle += 2;
         }
+
     }
 
     function move(targetVelocity) {
-        background.x -= Math.sin(-background.angle) * targetVelocity;
-        background.y += Math.cos(-background.angle) * targetVelocity;
-    }
+        background.anchor.set(0.5);
+        let turningAngle = background.angle;
+        if (turningAngle = 0) {
+            turningAngle += Math.PI * 2;
+        }
+        let debuggingCode = document.getElementById('debuggingCode');
+        debuggingCode.innerHTML = `X Vel: ${-Math.sin(turningAngle) * targetVelocity}<br>Y Vel: ${Math.cos(turningAngle) * targetVelocity}<br>Turning Angle: ${turningAngle}`;
+        background.x -= Math.sin(turningAngle) * targetVelocity;
+    
+        background.y += Math.cos(turningAngle) * targetVelocity;
+    }   
 })();
