@@ -102,7 +102,10 @@ limitations under the License. -->
 
   <div id="debuggingCode" style="position: fixed; bottom:380px; left: 0; z-index: 1; color: white; background-color: black; font-family: 'Minecraft';"></div>
 
-  <audio id="sound1" src="Assets/8bit-music.mp3" preload="auto" loop></audio>
+  <audio id="background" src="Assets/8bit-music.mp3" preload="auto" loop></audio>
+  <audio id="checkpoint" src="Assets/checkpoint.mp3" preload="auto"></audio>
+  <audio id="race-start" src="Assets/race-start.mp3" preload="auto"></audio>
+  <audio id="victory" src="Assets/victory.mp3" preload="auto"></audio>
   
   <!-- scripts -->
   <script src="https://pixijs.download/release/pixi.js"></script>
@@ -123,7 +126,8 @@ limitations under the License. -->
       }
     }
     function toggleIntro() {
-      const bg_music = document.getElementById('sound1');
+      const bg_music = document.getElementById('background');
+      bg_music.volume = 0.5;
       bg_music.play();
 
       const intro = document.getElementById('intro');

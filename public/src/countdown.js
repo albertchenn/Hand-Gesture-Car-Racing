@@ -6,6 +6,8 @@ function startCountDown() {
     // replace text in start btn with countdown
 
     let num = 3;
+    let raceStartSound = document.getElementById("race-start");
+    raceStartSound.play();
     const intervalID = setInterval(() => {
         startBtn.innerHTML = num;
         num = num - 1;
@@ -15,7 +17,7 @@ function startCountDown() {
             startTimer()
             
         }
-    }, 1000);
+    }, 790);
 }
 
 startBtn.addEventListener("click", startCountDown)

@@ -122,18 +122,23 @@ import { endTimer, hasTimerStarted } from './timer.js';
         return false;  // No match found, sprite is not touching the color
     }
 
+    let checkpointSound = document.getElementById("checkpoint");
+    let victorySound = document.getElementById("victory");
+    checkpointSound.volume = 2;
     function checkpointCheck() {
         if (checkpoint === 9) {
             return;
         }
         // create sequential checkpoints
         if (isSpriteTouchingColor(car, CHECKPOINTS[checkpoint]) && checkpoint < 9) {
+            checkpointSound.play();
             reached[checkpoint] = true;
             checkpoint++;
-            console.log(reached);
+            
         }
 
         if (allEqual(reached) && reached[8] === true) {
+            victorySound.play();
             console.log('hit finish line');
             endTimer();
         }
