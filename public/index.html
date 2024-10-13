@@ -32,7 +32,7 @@ limitations under the License. -->
 
   <section id="demos">
     <div id="liveView" class="videoView">
-      <div style="position: relative;">
+      <div style="position: absolute; bottom: 0; left: 0; transform: translate(0%, 0%);">
         <video id="webcam" autoplay playsinline></video>
         <canvas class="output_canvas" id="output_canvas" width="1280" height="720" style="position: absolute; left: 0px; top: 0px;"></canvas>
         <p id='gesture_output' class="output"></p>
@@ -44,7 +44,6 @@ limitations under the License. -->
     <div class="timer-background"></div>
     <div class="timer-text"><p>Time Lap: <span class="stopwatch">00:00:000</span></p></div>  <!-- remove the place holder text in span later -->
   </div>
-
 
 
   <script src="https://pixijs.download/release/pixi.js"></script>
