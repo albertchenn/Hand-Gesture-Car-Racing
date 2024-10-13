@@ -38,7 +38,7 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
 
     let targetAngle = 0;
     const onRoadColor = { r: 255, g: 0, b: 0 };
-    const offRoad = false;
+    let offRoad = false;
     
 
     app.ticker.add(() => {
