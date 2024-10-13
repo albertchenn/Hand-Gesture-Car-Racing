@@ -1,6 +1,6 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
 import { getCarVelocity, getCarAngle } from './vision.mjs';
-import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, OFFROAD_MULTIPLIER, BACKGROUND_SCALE, BG_OFFSET_HEIGHT, BG_OFFSET_WIDTH, ON_ROAD_COLOR, FINISH_COLOR, CHECKPOINTS } from './constants.js';
+import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, OFFROAD_MULTIPLIER, BACKGROUND_SCALE, BG_OFFSET_HEIGHT, BG_OFFSET_WIDTH, OFF_ROAD_COLOR, FINISH_COLOR, CHECKPOINTS } from './constants.js';
 import { TURNING_SPEED } from './sliders.js';
 import { endTimer, hasTimerStarted } from './timer.js';
 
@@ -63,10 +63,10 @@ import { endTimer, hasTimerStarted } from './timer.js';
             rotate(targetAngle);
             move(targetVelocity);
 
-            if (isSpriteTouchingColor(car, ON_ROAD_COLOR)) {
-                offRoad = false;
-            } else {
+            if (isSpriteTouchingColor(car, OFF_ROAD_COLOR)) {
                 offRoad = true;
+            } else {
+                offRoad = false;
             }            
 
             checkpointCheck();
