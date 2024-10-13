@@ -87,6 +87,24 @@ limitations under the License. -->
   </button>
 
 
+  <button id="letsPlayButton"  onclick="toggleIntro()" style="z-index: 1001; background-color: red; color: white; position: absolute; bottom: 100px; right: 100px; font-family: 'Minecraft'; font-size: 64px;">Lets Play!</button>
+  <div id="intro" style="position: fixed; left: 0; top: 0; height: 100%; width: 100%; background-color: green; z-index: 1000; padding: 24px;">
+    <h1 style="color: white; font-family: 'Minecraft'; text-align: center; font-size: 36x;">Welcome to the Hand Gesture Racing Game!</h1>
+    <p style="color: orange; font-family: 'Minecraft'; text-align: left; font-size: 24px;">
+      This game is controlled by hand gestures. <br>
+      There will be a video in the bottom left that will show your hands being detected. <br>
+      In order to start the game, you must press the start button in the center of the screen. <br>
+      In order to steer you turn your hands like a steering wheel. Your thumbs must be up. <br>
+      If you want to speed up or slow down, you can move your hands closer and further away from the camera. <br>
+      In order to zero your player, you must move to the location you want and put your thumbs down. <br>
+      When you are ready to drive again, put your thumbs back up.
+      <br>
+      Make sure to look at the map below before you begin!
+    </p>
+    <img src="/Assets/final-final-race-track.png" style="transform: rotate(90deg);">
+  </div>
+  
+  
 
   <div id="debuggingCode" style="position: fixed; bottom:380px; left: 0; z-index: 1; color: white; background-color: black; font-family: 'Minecraft';"></div>
 
@@ -106,6 +124,15 @@ limitations under the License. -->
         menuContent.style.visibility = 'visible';
       } else {
         menuContent.style.visibility = 'hidden';
+      }
+    }
+    function toggleIntro() {
+      const intro = document.getElementById('intro');
+      if (intro.style.visibility === 'hidden') {
+        intro.style.visibility = 'visible';
+      } else {
+        intro.style.visibility = 'hidden';
+        document.getElementById('letsPlayButton').style.display = 'none';
       }
     }
   </script>
