@@ -1,4 +1,4 @@
-import {formatTime, startTimer} from './timer.js'
+import {startTimer} from './timer.js'
 
 const startBtn = document.getElementById("start-text");
 
