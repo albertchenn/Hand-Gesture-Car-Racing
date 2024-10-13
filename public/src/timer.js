@@ -48,3 +48,5 @@ function handleClick() {
 };
 
 timer.addEventListener("click", handleClick);
+
+export {formatTime, startTimer, timer, stopwatch};
