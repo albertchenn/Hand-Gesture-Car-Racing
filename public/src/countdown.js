@@ -9,7 +9,7 @@ function startCountDown() {
     const intervalID = setInterval(() => {
         startBtn.innerHTML = num;
         num = num - 1;
-        if (num === 0) {
+        if (num === -1) {
             clearInterval(intervalID);
             document.getElementById("start").remove();
             startTimer()
