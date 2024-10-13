@@ -1,14 +1,13 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
-
 import { getCarVelocity, getCarAngle } from './vision.mjs';
+
 (async () => {
     const app = new Application({
-        backgroundColor: 0x1099bb, 
-        resizeTo: window, 
+        backgroundColor: 0x1099bb,
+        resizeTo: window,
     });
-    
-    document.body.appendChild(app.view); 
-    //../Assets/placeholder_track.png
+
+    document.body.appendChild(app.view);
 
     const car_texture = await Assets.load('/Assets/car.png');
     const background_texture = await Assets.load('../Assets/placeholder_track.png');
@@ -27,21 +26,22 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
 
     app.stage.addChild(background);
     app.stage.addChild(car);
-    
+
     app.ticker.add(() => {
         let targetAngle = getCarAngle();
         let targetVelocity = getCarVelocity();
 
-        // rotate(targetAngle);
+        rotate(targetAngle);
         move(targetVelocity);
+
+        const debuggingCode = document.getElementById('debuggingCode');
+        debuggingCode.innerHTML = `Car Angle: ${targetAngle}<br>Car Velocity: ${targetVelocity}`;
     });
 
-    
     function rotate(targetAngle) {
         if (targetAngle < 0) {
             background.angle -= 2;
-        }
-        else {
+        } else {
             background.angle += 2;
         }
     }
@@ -49,5 +49,4 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     function move(targetVelocity) {
         background.y += targetVelocity;
     }
-
 })();
