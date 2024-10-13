@@ -1,6 +1,6 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
 import { getCarVelocity, getCarAngle } from './vision.mjs';
-import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED } from './constants.js';
+import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED, OFFROAD_MULTIPLIER } from './constants.js';
 
 (async () => {
     const canvas = document.getElementById('gameCanvas');
@@ -43,6 +43,9 @@ import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SP
 
     app.ticker.add(() => {
         let targetVelocity = getCarVelocity();
+        if (offRoad) {
+            targetVelocity *= OFFROAD_MULTIPLIER;
+        }
         targetAngle += TURNING_SPEED * getCarAngle();
 
         if (!targetAngle) {
