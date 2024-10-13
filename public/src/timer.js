@@ -1,4 +1,4 @@
-const timer = document.getElementsByClassName("timer")[0];
+const timer = document.getElementById("timer");
 const stopwatch  = document.getElementsByClassName("stopwatch")[0];
 
 let elapsedTime = 0;
