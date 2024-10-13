@@ -28,13 +28,17 @@ import {
   boundVelocity,
 } from "./mathhelp.js";
 
+import {
+  VIDEO_HEIGHT_PX, VIDEO_WIDTH_PX, VIDEO_HEIGHT, VIDEO_WIDTH
+} from "./constants.js";
+
 // Create required variables.
 let gestureRecognizer = null;
 let runningMode = "VIDEO";
 let webcamRunning = false;
 
-const videoHeight = "360px";
-const videoWidth = "480px";
+const videoHeight = VIDEO_HEIGHT_PX;
+const videoWidth = VIDEO_WIDTH_PX;
 
 let car_velocity = 0;
 let car_angle = 0;
@@ -200,8 +204,8 @@ function displayVideoDetections(results) {
     // Draw line between hands
     canvasCtx.restore();
     canvasCtx.beginPath();
-    canvasCtx.moveTo(leftHandPos.x * 480 * 2 + 180, leftHandPos.y * 360 * 2);
-    canvasCtx.lineTo(rightHandPos.x * 480 * 2 + 180, rightHandPos.y * 360 * 2);
+    canvasCtx.moveTo(leftHandPos.x * VIDEO_WIDTH * 2 + 180, leftHandPos.y * VIDEO_HEIGHT * 2);
+    canvasCtx.lineTo(rightHandPos.x * VIDEO_WIDTH * 2 + 180, rightHandPos.y * VIDEO_HEIGHT * 2);
     canvasCtx.strokeStyle = "red";
     canvasCtx.lineWidth = 5;
     canvasCtx.stroke();

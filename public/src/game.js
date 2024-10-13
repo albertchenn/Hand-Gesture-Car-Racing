@@ -1,6 +1,7 @@
 import { Application, Assets, Sprite } from 'https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.mjs';
 import { getCarVelocity, getCarAngle } from './vision.mjs';
 
+import { CAR_PNG, BACKGROUND_PNG, VELOCITY_CUSHION, BACKGROUND_SCALE, TURNING_SPEED } from './constants.js';
 (async () => {
     const canvas = document.getElementById('gameCanvas');
     const app = new Application({
@@ -12,8 +13,8 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
 
     document.body.appendChild(app.view);
 
-    const car_texture = await Assets.load('/Assets/car.png');
-    const background_texture = await Assets.load('../Assets/detroitTopDownView.png');
+    const car_texture = await Assets.load(CAR_PNG);
+    const background_texture = await Assets.load(BACKGROUND_PNG);
 
     const car = new Sprite(car_texture);
     const background = new Sprite(background_texture);
@@ -22,7 +23,7 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     car.y = app.screen.height / 2;
     background.x = app.screen.width / 2;
     background.y = app.screen.height / 2;
-    background.scale.set(8);
+    background.scale.set(BACKGROUND_SCALE);
 
     car.anchor.set(0.5);
     background.anchor.set(0.5);
@@ -31,11 +32,10 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     app.stage.addChild(car);
     
     let targetAngle = 0;
-    const turningSpeed = 0.1;
 
     app.ticker.add(() => {
         let targetVelocity = getCarVelocity();
-        targetAngle += turningSpeed * getCarAngle();
+        targetAngle += TURNING_SPEED * getCarAngle();
 
         if (!targetAngle) {
             targetAngle = 0
@@ -55,7 +55,7 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
     }
 
     function move(targetVelocity) {
-        if( targetVelocity < 1 && targetVelocity > -1) {
+        if( targetVelocity < VELOCITY_CUSHION && targetVelocity > -VELOCITY_CUSHION) {
             targetVelocity = 0;
         }
 
