@@ -44,6 +44,16 @@ import { getCarVelocity, getCarAngle } from './vision.mjs';
         let targetVelocity = getCarVelocity();
         // let targetVelocity = 0;
 
+        if (targetVelocity > 6) {
+            targetVelocity = 6;
+        } else if (targetVelocity < -6) {
+            targetVelocity = -6;
+        }
+
+        if( targetVelocity < 1 && targetVelocity > -1) {
+            targetVelocity = 0;
+        }
+
         if (!targetAngle) {
             targetAngle = 0
         }
