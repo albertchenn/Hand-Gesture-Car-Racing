@@ -2,10 +2,10 @@ export const ANGLE_THRESHOLD = 0.175;
 
 export const VELOCITY_CUSHION = 1;
 
-export const BACKGROUND_SCALE = 36;
+export const BACKGROUND_SCALE = 20;
 
 export const CAR_PNG = '/Assets/car.png';
-export const BACKGROUND_PNG = '/Assets/pixel_race_track.png';
+export const BACKGROUND_PNG = '/Assets/final-final-race-track.png';
 
 export const VIDEO_WIDTH = 480;
 export const VIDEO_HEIGHT = 360;
@@ -16,7 +16,7 @@ export const VIDEO_HEIGHT_PX = "360px";
 export const BG_OFFSET_WIDTH = 0;
 export const BG_OFFSET_HEIGHT = 0;
 
-export const ON_ROAD_COLOR = { r: 0, g: 0, b: 0 };
+export const ON_ROAD_COLOR = { r: 128, g: 128, b: 128 };
 export const FINISH_COLOR = { r: 255, g: 0, b: 0 };
 export const CHECKPOINT_1_COLOR = { r: 175, g: 0, b: 255 };
 export const CHECKPOINT_2_COLOR = { r: 150, g: 0, b: 255 };

@@ -31,8 +31,8 @@ import { endTimer, hasTimerStarted } from './timer.js';
     car.x = app.screen.width / 2;
     car.y = app.screen.height / 2;
     car.scale.set(0.25);
-    background.x = app.screen.width / 2;
-    background.y = app.screen.height / 2;
+    background.x = app.screen.width / 2 + 220;
+    background.y = app.screen.height / 2 + 10;
     background.scale.set(BACKGROUND_SCALE);
 
     car.anchor.set(0.5);
