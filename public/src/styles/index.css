@@ -23,6 +23,10 @@
     cursor: pointer;
 }
 
+.no-border {
+    border: none;
+}
+
 .btn:hover { 
     border-color: hsl(100, 100%, 100%)
 }
@@ -31,13 +35,19 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: hsl(100, 100%, 100%);
+    background-color: #262626;
     opacity: .75;
 }
 
 .btn-text {
     font-size: 36px;
-    color: black;
+    color: #fff;
     z-index: 1;
+}
 
+.start {
+    position: fixed;
+    bottom: 50vh;
+    left:50vw;
+    transform: translateX(-50%);
 }
