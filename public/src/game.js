@@ -7,7 +7,7 @@ import { endTimer, hasTimerStarted } from './timer.js';
     const canvas = document.getElementById('gameCanvas');
     const app = new Application({
         view: canvas,
-        backgroundColor: 0xffffff,
+        backgroundColor: 0x333333,
         resizeTo: window,
     });
 
