@@ -1,6 +1,5 @@
 export let VELOCITY_MULTIPLIER = 4;
 export let TURNING_SPEED = 0.15;
-export let OFFROAD_MULTIPLIER = 0.5;
 export let VELOCITY_THRESHOLD = 20;
 
 const slider = document.getElementById("maxVelocityMultiplier");
@@ -23,16 +22,6 @@ function updateTurningSpeed() {
 }
 slider2.addEventListener("input", updateTurningSpeed);
 
-const slider3 = document.getElementById("maxOffroadSpeed");
-const sliderOffroadSpeed = document.getElementById("sliderOffroadSpeed");
-
-function updateOffroadSpeed() {
-    OFFROAD_MULTIPLIER = slider3.value;
-    sliderOffroadSpeed.textContent = OFFROAD_MULTIPLIER; 
-    console.log("Current Offroad Speed:", OFFROAD_MULTIPLIER);
-}
-slider3.addEventListener("input", updateOffroadSpeed);
-
 const slider4 = document.getElementById("maxVelocity");
 const sliderMaxVelocity = document.getElementById("sliderMaxVelocity");
 
@@ -46,5 +35,4 @@ slider4.addEventListener("input", updateMaxVelocity);
 // Call the update functions initially to set correct values in the UI
 updateVelocity();
 updateTurningSpeed();
-updateOffroadSpeed();
 updateMaxVelocity();

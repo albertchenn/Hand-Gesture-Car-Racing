@@ -4,6 +4,8 @@ export const VELOCITY_CUSHION = 1;
 
 export const BACKGROUND_SCALE = 20;
 
+export const OFFROAD_MULTIPLIER = 0.5;
+
 export const CAR_PNG = '/Assets/car.png';
 export const BACKGROUND_PNG = '/Assets/final-final-race-track.png';
 
