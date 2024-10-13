@@ -23,6 +23,10 @@
     cursor: pointer;
 }
 
+#timer {
+    cursor: default;
+}
+
 .no-border {
     border: none;
 }
