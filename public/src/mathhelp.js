@@ -1,3 +1,5 @@
+import { ANGLE_THRESHOLD, VELOCITY_THRESHOLD, VELOCITY_MULTIPLIER } from "./constants.js";
+
 let zeroDistance = 0;
 
 export function calculateArea(points) {
@@ -13,7 +15,7 @@ export function calculateArea(points) {
 export function determineDistance(areas) {
     let averageArea = areas.reduce((a, b) => a + b, 0) / areas.length; 
 
-    let distance = 1 / Math.sqrt(averageArea);
+    let distance = VELOCITY_MULTIPLIER / Math.sqrt(averageArea);
 
     return distance - zeroDistance;
 }
@@ -38,12 +40,12 @@ export function calculateAngle(points){
     let y = points[0].y - points[1].y;
     let angle = Math.atan2(y, x);
 
-    if (angle < 0.175 && angle > -0.175) {
+    if (angle < ANGLE_THRESHOLD && angle > -ANGLE_THRESHOLD) {
         return 0;
     }
     return angle;
 }
 
 export function boundVelocity(distance) {
-    return Math.max(-6, Math.min(6, distance)) * -20/6;
+    return -Math.max(-VELOCITY_THRESHOLD, Math.min(VELOCITY_THRESHOLD, distance));
 }
