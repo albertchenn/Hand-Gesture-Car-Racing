@@ -124,7 +124,6 @@ import { endTimer, hasTimerStarted } from './timer.js';
 
     let checkpointSound = document.getElementById("checkpoint");
     let victorySound = document.getElementById("victory");
-    checkpointSound.volume = 2;
     function checkpointCheck() {
         if (checkpoint === 9) {
             return;
